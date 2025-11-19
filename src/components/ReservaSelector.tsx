@@ -42,26 +42,6 @@ export default function ReservaSelector({
     return new Date(dateString).toLocaleDateString('pt-BR');
   };
 
-  const getStatusText = (status: number) => {
-    const statuses: { [key: number]: string } = {
-      0: 'Cancelada',
-      1: 'Confirmada',
-      2: 'Check-in',
-      3: 'Check-out'
-    };
-    return statuses[status] || 'Desconhecido';
-  };
-
-  const getStatusColor = (status: number) => {
-    const colors: { [key: number]: string } = {
-      0: 'bg-red-100 text-red-800 border-red-300',
-      1: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-      2: 'bg-green-100 text-green-800 border-green-300',
-      3: 'bg-blue-100 text-blue-800 border-blue-300'
-    };
-    return colors[status] || 'bg-gray-100 text-gray-800 border-gray-300';
-  };
-
   if (loading) {
     return (
       <div className="bg-white rounded-lg shadow-md p-6">
@@ -107,15 +87,9 @@ export default function ReservaSelector({
           >
             <div className="flex items-center justify-between mb-2">
               <div className="font-semibold text-gray-800">Reserva #{reserva.reserva_id}</div>
-              <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(reserva.status_reserva)}`}>
-                {getStatusText(reserva.status_reserva)}
-              </span>
             </div>
             <div className="text-sm text-gray-600">
               {formatDate(reserva.data_checkin)} até {formatDate(reserva.data_checkout)}
-            </div>
-            <div className="text-sm text-gray-600 mt-1">
-              {reserva.tipo_quarto} • {reserva.plano_tarifario}
             </div>
           </button>
         ))}
