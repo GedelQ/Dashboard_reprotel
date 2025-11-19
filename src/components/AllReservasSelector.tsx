@@ -43,10 +43,10 @@ export default function AllReservasSelector({ selectedReservaId, onSelectReserva
 
   const getStatusText = (status: number) => {
     const statuses: { [key: number]: string } = {
-      0: 'Cancelada',
-      1: 'Confirmada',
-      2: 'Check-in',
-      3: 'Check-out'
+       1: 'Confirmada',
+       2: 'Cancelada',
+       3: 'Realizada',
+       4: 'Bloqueio'
     };
     return statuses[status] || 'Desconhecido';
   };
