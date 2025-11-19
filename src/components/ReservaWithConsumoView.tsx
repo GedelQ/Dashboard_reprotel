@@ -76,20 +76,20 @@ export default function ReservaWithConsumoView({ reservaId }: ReservaWithConsumo
 
   const getStatusText = (status: number) => {
     const statuses: { [key: number]: string } = {
-      0: 'Cancelada',
       1: 'Confirmada',
-      2: 'Check-in',
-      3: 'Check-out'
+      2: 'Cancelada',
+      3: 'Realizada',
+      4: 'Bloqueio'
     };
     return statuses[status] || 'Desconhecido';
   };
 
   const getStatusColor = (status: number) => {
     const colors: { [key: number]: string } = {
-      0: 'bg-red-100 text-red-800 border-red-300',
-      1: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-      2: 'bg-green-100 text-green-800 border-green-300',
-      3: 'bg-blue-100 text-blue-800 border-blue-300'
+      1: 'bg-green-100 text-green-800 border-green-300',
+      2: 'bg-red-100 text-red-800 border-red-300',
+      3: 'bg-blue-100 text-blue-800 border-blue-300',
+      4: 'bg-gray-100 text-gray-800 border-gray-300'
     };
     return colors[status] || 'bg-gray-100 text-gray-800 border-gray-300';
   };
@@ -139,9 +139,9 @@ export default function ReservaWithConsumoView({ reservaId }: ReservaWithConsumo
         </div>
 
         <h3 className="text-lg font-semibold text-gray-700 mb-4">Detalhes da Reserva</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {quartos.map(quarto => (
-            <React.Fragment key={quarto.id}>
+            <div key={quarto.id} className="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
                 <DoorOpen className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
                 <div>
@@ -156,7 +156,14 @@ export default function ReservaWithConsumoView({ reservaId }: ReservaWithConsumo
                   <div className="font-semibold text-gray-800">{quarto.plano_tarifario}</div>
                 </div>
               </div>
-            </React.Fragment>
+              <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+                <CreditCard className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <div className="text-sm text-gray-600">Valor Diária</div>
+                  <div className="font-semibold text-gray-800">{formatCurrency(quarto.valor_diarias)}</div>
+                </div>
+              </div>
+            </div>
           ))}
           <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
             <Calendar className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
@@ -172,15 +179,14 @@ export default function ReservaWithConsumoView({ reservaId }: ReservaWithConsumo
               <div className="font-semibold text-gray-800">{formatDate(reserva.data_checkout)}</div>
             </div>
           </div>
-          <div className="md:col-span-2 flex items-start gap-3 p-4 bg-green-50 rounded-lg border border-green-200">
+          <div className="md:col-span-3 flex items-start gap-3 p-4 bg-green-50 rounded-lg border border-green-200">
             <CreditCard className="w-5 h-5 text-green-700 mt-0.5 flex-shrink-0" />
             <div>
               <div className="text-sm text-green-700 font-medium">Valor Total Diárias</div>
               <div className="text-2xl font-bold text-green-800">{formatCurrency(totalDiarias)}</div>
             </div>
           </div>
-        </div>
-      </div>
+        </div>      </div>
 
       <ReservaOcupantes reservaId={reservaId} hospedePrincipalId={reserva.hospede_id} />
 
