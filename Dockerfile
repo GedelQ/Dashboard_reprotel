@@ -1,6 +1,15 @@
 # Fase de Build
 FROM node:18-alpine AS builder
 
+# Argumentos que podem ser passados durante o build do Docker.
+# No EasyPanel, eles devem ser configurados em "Build Args".
+ARG VITE_SUPABASE_URL
+ARG VITE_SUPABASE_ANON_KEY
+
+# Define as variáveis de ambiente para o processo de build
+ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL
+ENV VITE_SUPABASE_ANON_KEY=$VITE_SUPABASE_ANON_KEY
+
 # Define o diretório de trabalho dentro do contêiner
 WORKDIR /app
 
@@ -20,7 +29,7 @@ RUN npm install
 COPY . .
 
 # Constrói a aplicação (gera os arquivos estáticos na pasta 'dist')
-# Certifique-se de que este comando corresponde ao seu script de build no package.json
+# O Vite usará as variáveis de ambiente definidas acima.
 RUN npm run build
 # Se você usa yarn, COMENTE a linha acima e DESCOMENTE a linha abaixo:
 # RUN yarn build
